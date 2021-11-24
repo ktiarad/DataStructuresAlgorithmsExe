@@ -90,8 +90,8 @@ class LinkedList {
         let counter = 0;
         let currentNode = this.head; // Reference to the head
         while (counter !== index) {
-            console.log("current node in traversion with counter " + counter + " : ");
-            console.log(currentNode.next);
+            // console.log("current node in traversion with counter " + counter + " : ");
+            // console.log(currentNode.next);
             currentNode = currentNode.next; // Keep going on the list while the counter is lower than the index
             counter++;
         }
@@ -100,21 +100,36 @@ class LinkedList {
 
     reverse() {
         if (!this.head.next) {
-            return this.head; // If there is only the head, just return the head
+            return this.head; // If the list only has one node, just return the head
         }
-        let first = this.head; // The head will be the first
-        this.tail = this.head;
-        let second = first.next;
+        let first = this.head; // Variable first to store the head
+        this.tail = this.head; // The tail will have the head value; the head will be the tail
+        let second = first.next; // Variable second to store the node next to the variable first
         while(second) {
-            const temp = second.next;
-            second.next = first;
-            first = second;
-            second = temp;
-            console.log("first : " + first + ", second : " + second);
+            const temp = second.next; // Temp to store the node next to the variable second
+            second.next = first; // Let the variable secont points to variable first
+            first = second; // Variable first will have variable second value
+            second = temp; // Variable second will have variable temp value
+            // this.printListArr(first);
+            console.log("first : " + first.value + ", second : " + first.next.value);
         }
-        this.head.next = null;
-        this.head = first;
+        this.head.next = null; // The head hasn't changed and still pointing to second node, so we want it to point to null because it will be the last node
+        console.log("head next : " + this.head.value);
+        this.head = first; // Variable first will be the last node, so the head will be in the last node
+        console.log("head value now : " + this.head.value);
         return this.printList();
+    }
+
+    printListArr(list) {
+        // Printing list as array
+        const array = [];
+        let currentNode = list; // --> Our list!
+        while (currentNode != null) {
+            array.push(currentNode.value); // Push value of currentNode to array
+            currentNode = currentNode.next; // Go to the next node
+        }
+        console.log(array);
+        return array;
     }
 
     printList() {
@@ -130,16 +145,22 @@ class LinkedList {
     }
 }
 
-let myLinkedList = new LinkedList(10); // LinkedList { head: { value: 10, next: null }, tail: { value: 10, next: null }, length: 1 }
-myLinkedList.append(7);
-myLinkedList.append(1);
-myLinkedList.append(15);
-myLinkedList.prepend(8);
-myLinkedList.append(8);
-myLinkedList.append(19);
+let myLinkedList = new LinkedList(1); // LinkedList { head: { value: 10, next: null }, tail: { value: 10, next: null }, length: 1 }
 myLinkedList.append(2);
+myLinkedList.append(3);
+myLinkedList.append(4);
+myLinkedList.append(5);
+// myLinkedList.prepend(2);
+// myLinkedList.printList();
+// myLinkedList.printList();
+// myLinkedList.append(1);
+// myLinkedList.append(15);
+// myLinkedList.prepend(8);
+// myLinkedList.append(8);
+// myLinkedList.append(19);
+// myLinkedList.append(2);
 myLinkedList.printList();
 // myLinkedList.insert(4,100);
 // myLinkedList.remove(5);
 myLinkedList.reverse();
-// myLinkedList.printList();
+myLinkedList.printList();
