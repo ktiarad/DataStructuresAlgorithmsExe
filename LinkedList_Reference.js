@@ -22,4 +22,4 @@ console.log('1', obj1); // 1 {}
 console.log('2', obj2); // 2 {}
 
 // After the property of obj1 is deleted, then the value is deleted.
-// It must have something to do with the pointer.
+// It must have something to do with the pointer because it's not deleted.

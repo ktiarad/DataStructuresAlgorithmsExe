@@ -12,6 +12,14 @@ firstLinkedList = {
     }
 };
 
+class Node {
+    // Class for instantiate newNode, optional
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
 class LinkedList {
     // Initialize the Linked List
     constructor(value) {
@@ -22,7 +30,116 @@ class LinkedList {
         this.tail = this.head; // For initializing Linked List, tail = head
         this.length = 1;
     }
+
+    // Append value so the value will be added at the end of the list
+    append(value) {
+        const newNode = { // Put the new value to const named newNode
+            value: value,
+            next: null // --> Will be the tail
+        };
+        this.tail.next = newNode; // The tail.next will be added with newNode. Remember in constructor, this.tail = this.head
+        // ^ If you change into this.head.next = newNode, the result will be same
+        this.tail = newNode; // Change the value of the tail
+        this.length++; // Added the length of the list
+        return this;
+    }
+    
+    // Append new value to the first of the list
+    prepend(value) {
+        const newNode = {
+            value: value,
+            next: null
+        };
+        newNode.next = this.head; // The newNode will be pointing to this.head since it will be the beginning of the list
+        this.head = newNode; // Change the value of this.head 
+        this.length++;
+        return this;
+    }
+
+    // Insert new value into desired index
+    insert(index, value) {
+        // Checking parameters
+        if (index >= this.length) {
+            return this.append(value); // Just append the value to the end of the list
+        }
+        const newNode = {
+            value: value,
+            next: null
+        };
+        const leader = this.traverseToIndex(index-1); // Get the previous value of the desired index
+        console.log("leader : ");
+        console.log(leader);
+        const holdingPointer = leader.next; // Get the rest of the list
+        leader.next = newNode; // Put the newNode after the leader
+        newNode.next = holdingPointer; // Put the rest of the list after the newNode
+        this.length++;
+    }
+
+    remove(index) {
+        // Checking parameters
+        const leader = this.traverseToIndex(index-1);
+        const unwantedNode = leader.next; // The unwanted node is next to the leader
+        leader.next = unwantedNode.next; // Put the rest (next to the unwanted node) to the leader
+        this.length--; // Decrese the length of the list since it is removed
+        return this;
+    }
+
+    // Get the previous value of the desired index
+    traverseToIndex(index) {
+        // Check params
+        let counter = 0;
+        let currentNode = this.head; // Reference to the head
+        while (counter !== index) {
+            console.log("current node in traversion with counter " + counter + " : ");
+            console.log(currentNode.next);
+            currentNode = currentNode.next; // Keep going on the list while the counter is lower than the index
+            counter++;
+        }
+        return currentNode;
+    }
+
+    reverse() {
+        if (!this.head.next) {
+            return this.head; // If there is only the head, just return the head
+        }
+        let first = this.head; // The head will be the first
+        this.tail = this.head;
+        let second = first.next;
+        while(second) {
+            const temp = second.next;
+            second.next = first;
+            first = second;
+            second = temp;
+            console.log("first : " + first + ", second : " + second);
+        }
+        this.head.next = null;
+        this.head = first;
+        return this.printList();
+    }
+
+    printList() {
+        // Printing list as array
+        const array = [];
+        let currentNode = this.head; // --> Our list!
+        while (currentNode != null) {
+            array.push(currentNode.value); // Push value of currentNode to array
+            currentNode = currentNode.next; // Go to the next node
+        }
+        console.log(array);
+        return array;
+    }
 }
 
 let myLinkedList = new LinkedList(10); // LinkedList { head: { value: 10, next: null }, tail: { value: 10, next: null }, length: 1 }
-console.log(myLinkedList);
+myLinkedList.append(7);
+myLinkedList.append(1);
+myLinkedList.append(15);
+myLinkedList.prepend(8);
+myLinkedList.append(8);
+myLinkedList.append(19);
+myLinkedList.append(2);
+myLinkedList.printList();
+// myLinkedList.insert(4,100);
+// myLinkedList.remove(5);
+myLinkedList.reverse();
+// myLinkedList.printList();
